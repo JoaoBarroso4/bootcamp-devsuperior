@@ -3,6 +3,7 @@ package com.devsuperior.bootcamp.services;
 import com.devsuperior.bootcamp.dto.CategoryDTO;
 import com.devsuperior.bootcamp.entities.Category;
 import com.devsuperior.bootcamp.repositories.CategoryRepository;
+import com.devsuperior.bootcamp.services.exceptions.EntityAlreadyExists;
 import com.devsuperior.bootcamp.services.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,10 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
+        if(repository.existsByName(dto.getName())) {
+            throw new EntityAlreadyExists("Entity already exists");
+        }
+
         Category category = new Category();
         category.setName(dto.getName());
         category = repository.save(category);

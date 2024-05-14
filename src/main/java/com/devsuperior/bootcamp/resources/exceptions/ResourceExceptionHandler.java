@@ -1,5 +1,6 @@
 package com.devsuperior.bootcamp.resources.exceptions;
 
+import com.devsuperior.bootcamp.services.exceptions.EntityAlreadyExists;
 import com.devsuperior.bootcamp.services.exceptions.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -14,13 +15,28 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
-        StandardError error = new StandardError();
-        error.setTimestamp(Instant.now());
-        error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setError("Resource not found");
-        error.setMessage(e.getMessage());
-        error.setPath(request.getRequestURI());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(generateStandardError(e, HttpStatus.NOT_FOUND, "Resource not found",
+                        request.getRequestURI()));
+    }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    @ExceptionHandler(EntityAlreadyExists.class)
+    public ResponseEntity<StandardError> entityAlreadyExists(EntityAlreadyExists e, HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(generateStandardError(e, HttpStatus.BAD_REQUEST, "Entity already exists",
+                        request.getRequestURI()));
+    }
+
+    private StandardError generateStandardError(Exception e, HttpStatus status, String error, String path) {
+        StandardError standardError = new StandardError();
+        standardError.setTimestamp(Instant.now());
+        standardError.setStatus(status.value());
+        standardError.setError(error);
+        standardError.setMessage(e.getMessage());
+        standardError.setPath(path);
+
+        return standardError;
     }
 }
