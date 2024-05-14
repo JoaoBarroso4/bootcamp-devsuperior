@@ -1,6 +1,6 @@
 package com.devsuperior.bootcamp.resources;
 
-import com.devsuperior.bootcamp.entities.Category;
+import com.devsuperior.bootcamp.dto.CategoryDTO;
 import com.devsuperior.bootcamp.services.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +20,8 @@ public class CategoryResources {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categories = service.findAll();
         return ResponseEntity.ok().body(categories);
     }
 }
