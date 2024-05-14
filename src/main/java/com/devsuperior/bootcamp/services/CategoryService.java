@@ -3,6 +3,7 @@ package com.devsuperior.bootcamp.services;
 import com.devsuperior.bootcamp.dto.CategoryDTO;
 import com.devsuperior.bootcamp.entities.Category;
 import com.devsuperior.bootcamp.repositories.CategoryRepository;
+import com.devsuperior.bootcamp.services.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,5 +26,14 @@ public class CategoryService {
 
         // Convert the list of Category to a list of CategoryDTO
         return categories.stream().map(CategoryDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public CategoryDTO findById(Long id) {
+        Category category = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Entity not found")
+        );
+
+        return new CategoryDTO(category);
     }
 }
