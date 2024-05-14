@@ -3,6 +3,7 @@ package com.devsuperior.bootcamp.services;
 import com.devsuperior.bootcamp.entities.Category;
 import com.devsuperior.bootcamp.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class CategoryService {
         this.repository = repository;
     }
 
+    // This annotation informs that this method will be a transaction in the database,
+    // following ACID principles, and betters performance
+    @Transactional(readOnly = true)
     public List<Category> findAll() {
         return repository.findAll();
     }
