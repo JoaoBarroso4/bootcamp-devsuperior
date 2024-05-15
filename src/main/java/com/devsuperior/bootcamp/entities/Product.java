@@ -28,8 +28,10 @@ public class Product implements Serializable {
     @Column(nullable = false, length = 80)
     private String name;
 
+    @Column(length = 500)
     private String description;
 
+    @Column(nullable = false)
     private Double price;
 
     private String imgUrl;
