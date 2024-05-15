@@ -8,6 +8,9 @@ import com.devsuperior.bootcamp.services.exceptions.EntityAlreadyExists;
 import com.devsuperior.bootcamp.services.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +28,11 @@ public class CategoryService {
     // This annotation informs that this method will be a transaction in the database,
     // following ACID principles, and betters performance
     @Transactional(readOnly = true)
-    public List<CategoryDTO> findAll() {
-        List<Category> categories = repository.findAll();
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+        Page<Category> categories = repository.findAll(pageRequest);
 
         // Convert the list of Category to a list of CategoryDTO
-        return categories.stream().map(CategoryDTO::new).toList();
+        return categories.map(CategoryDTO::new);
     }
 
     @Transactional(readOnly = true)
