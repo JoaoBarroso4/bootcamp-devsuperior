@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  db:
+    container_name: bootcamp_devsuperior
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: bootcamp_devsuperior
+      POSTGRES_USER: bootcamp
+      POSTGRES_PASSWORD: bootcamp
+    ports:
+        - "5432:5432"
