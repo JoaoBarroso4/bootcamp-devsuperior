@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +24,10 @@ public class Category implements Serializable {
     
     @Column(nullable = false, length = 50, unique = true)
     private String name;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 }
