@@ -1,5 +1,6 @@
 package com.devsuperior.bootcamp.resources.exceptions;
 
+import com.devsuperior.bootcamp.services.exceptions.DatabaseException;
 import com.devsuperior.bootcamp.services.exceptions.EntityAlreadyExists;
 import com.devsuperior.bootcamp.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +27,14 @@ public class ResourceExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(generateStandardError(e, HttpStatus.BAD_REQUEST, "Entity already exists",
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(generateStandardError(e, HttpStatus.BAD_REQUEST, "Database exception",
                         request.getRequestURI()));
     }
 
