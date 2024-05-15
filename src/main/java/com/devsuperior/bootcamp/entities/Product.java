@@ -13,8 +13,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 @Entity(name = "tb_product")
 public class Product implements Serializable {
 
@@ -43,8 +41,6 @@ public class Product implements Serializable {
     @JoinTable(name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    @Getter
-    @Setter(AccessLevel.PRIVATE)
     @Builder.Default
     Set<Category> categories = new HashSet<>();
 }

@@ -3,7 +3,6 @@ package com.devsuperior.bootcamp.dto;
 import com.devsuperior.bootcamp.entities.Category;
 import com.devsuperior.bootcamp.entities.Product;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ProductDTO {
 
     private Long id;
@@ -25,7 +23,6 @@ public class ProductDTO {
     private String imgUrl;
     private Instant date;
 
-    @Builder.Default
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(Product entity) {

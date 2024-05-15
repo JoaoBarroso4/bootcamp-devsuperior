@@ -2,6 +2,8 @@ package com.devsuperior.bootcamp.services;
 
 import com.devsuperior.bootcamp.dto.ProductDTO;
 import com.devsuperior.bootcamp.entities.Product;
+import com.devsuperior.bootcamp.entities.Category;
+import com.devsuperior.bootcamp.repositories.CategoryRepository;
 import com.devsuperior.bootcamp.repositories.ProductRepository;
 import com.devsuperior.bootcamp.services.exceptions.DatabaseException;
 import com.devsuperior.bootcamp.services.exceptions.EntityAlreadyExists;
@@ -17,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private final ProductRepository repository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository, CategoryRepository categoryRepository) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
     // This annotation informs that this method will be a transaction in the database,
@@ -48,7 +52,7 @@ public class ProductService {
         }
 
         Product product = new Product();
-        //product.setName(dto.getName());
+        copyDtoToEntity(dto, product);
         product = repository.save(product);
         return new ProductDTO(product);
     }
@@ -58,7 +62,7 @@ public class ProductService {
         Product product = repository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Id not found " + id)
         );
-        //product.setName(dto.getName());
+        copyDtoToEntity(dto, product);
         product = repository.save(product);
         return new ProductDTO(product);
     }
@@ -71,5 +75,21 @@ public class ProductService {
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product product) {
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+        product.setImgUrl(dto.getImgUrl());
+        product.setDate(dto.getDate());
+
+        product.getCategories().clear();
+        dto.getCategories().forEach(categoryDTO -> {
+            Category category = categoryRepository.findById(categoryDTO.getId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Category not found")
+            );
+            product.getCategories().add(category);
+        });
     }
 }
