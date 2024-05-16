@@ -11,7 +11,7 @@ import com.devsuperior.bootcamp.services.exceptions.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +29,8 @@ public class ProductService {
     // This annotation informs that this method will be a transaction in the database,
     // following ACID principles, and betters performance
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-        Page<Product> categories = repository.findAll(pageRequest);
+    public Page<ProductDTO> findAllPaged(Pageable pageable) {
+        Page<Product> categories = repository.findAll(pageable);
 
         // Convert the list of Product to a list of ProductDTO
         return categories.map(ProductDTO::new);
