@@ -18,11 +18,11 @@ public class Factory {
 
     public static List<Product> createProducts() {
         return List.of(
-                new Product(2L, "Phone", "Good Phone", 800.0,
+                new Product(1L, "Phone", "Good Phone", 800.0,
                         "https://img.com/img.png", Instant.parse("2021-10-20T03:00:00Z")),
-                new Product(3L, "TV", "Good TV", 1800.0,
+                new Product(2L, "TV", "Good TV", 1800.0,
                         "https://img.com/img.png", Instant.parse("2021-10-20T03:00:00Z")),
-                new Product(4L, "Tablet", "Good Tablet", 1200.0,
+                new Product(3L, "Tablet", "Good Tablet", 1200.0,
                         "https://img.com/img.png", Instant.parse("2021-10-20T03:00:00Z"))
         );
     }
